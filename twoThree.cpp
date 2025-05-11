@@ -88,7 +88,7 @@ public:
     }
 
     data_type get_min() const {
-        if (!root) return std::numeric_limits<data_type>::max();
+        if (!root) return std::numeric_limits<data_type>::max(); // cei mai mici vor fi cei mai mari
 
         data_type minVal;
         findMinNode(root, minVal);
@@ -108,7 +108,7 @@ public:
         return minVal;
     }
 
-    void reunion(TwoThree<data_type>& other) {
+    void reunion(TwoThree<data_type>& other) { // 1 decembrie 1918
         std::vector<data_type> merged;
         exportHeap(merged);
         other.exportHeap(merged);
@@ -130,9 +130,8 @@ public:
     }
 
 private:
-    node* findLeaf(node* nd, data_type val) const {
+    node* findLeaf(node* nd, data_type val) const { // frunza verde marioara
         if (nd->isLeaf()) return nd;
-
         if (val < nd->keys[0]) return findLeaf(nd->kids[0], val);
         if (nd->keys.size() == 1 || val < nd->keys[1]) return findLeaf(nd->kids[1], val);
         return findLeaf(nd->kids[2], val);

@@ -4,7 +4,7 @@
 #include <vector>
 
 template <typename T>
-class Fibonacci {
+class Fibonacci { // i know the pieces fit
 private:
     struct Node {
         T key;
@@ -24,11 +24,10 @@ private:
     int n;
 
     void link(Node* y, Node* x) {
-        // Remove y from root list
         y->left->right = y->right;
         y->right->left = y->left;
 
-        // Make y a child of x
+
         y->parent = x;
         y->left = y->right = y;
         if (!x->child)
@@ -40,12 +39,12 @@ private:
             x->child->right = y;
         }
 
-        x->degree++;
+        x->degree++; // isi da grade, isi permite
         y->mark = false;
     }
 
     void consolidate() {
-        int D = static_cast<int>(std::log2(n)) + 2;
+        int D = static_cast<int>(std::log2(n)) + 2; // hmmmm
         std::vector<Node*> A(D, nullptr);
 
         std::vector<Node*> rootList;
@@ -105,7 +104,6 @@ private:
         if (!minNode) {
             minNode = node;
         } else {
-            // Insert into root list
             node->left = minNode;
             node->right = minNode->right;
             minNode->right->left = node;
@@ -129,15 +127,13 @@ public:
     }
 
     T get_min() const {
-        if (!minNode) return std::numeric_limits<T>::max();
+        if (!minNode) return std::numeric_limits<T>::max(); // cei mai mici vor fi cei mai mari
         return minNode->key;
     }
 
     T delete_min() {
         if (!minNode) return std::numeric_limits<T>::max();
-
         Node* z = minNode;
-
         if (z->child) {
             Node* x = z->child;
             do {
@@ -148,17 +144,16 @@ public:
             } while (x != z->child);
         }
 
-        // Remove z from root list
+
+
         z->left->right = z->right;
         z->right->left = z->left;
-
         if (z == z->right) {
             minNode = nullptr;
         } else {
             minNode = z->right;
             consolidate();
         }
-
         T minValue = z->key;
         delete z;
         --n;
@@ -171,22 +166,16 @@ public:
             minNode = other.minNode;
             n = other.n;
         } else {
-            // Splice root lists
             Node* a = minNode->right;
             Node* b = other.minNode->right;
-
             minNode->right = b;
             b->left = minNode;
-
             other.minNode->right = a;
             a->left = other.minNode;
-
             if (other.minNode->key < minNode->key)
                 minNode = other.minNode;
-
             n += other.n;
         }
-
         other.minNode = nullptr;
         other.n = 0;
     }

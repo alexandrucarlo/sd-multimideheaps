@@ -127,7 +127,7 @@ public:
     }
 
     T get_min() const {
-        if (!head) return std::numeric_limits<T>::max();
+        if (!head) return std::numeric_limits<T>::max(); // cei mai mici vor fi cei mai mari
 
         Node* curr = head;
         Node* min_node = head;
@@ -169,7 +169,7 @@ public:
     void reunion(Binomial<T>& other) {
         if (head == other.head) return;
         head = union_heaps(head, other.head);
-        other.head = nullptr; // clear moved-from heap
+        other.head = nullptr; // taiem capul french revolution style
     }
 };
 

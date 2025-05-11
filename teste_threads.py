@@ -1,7 +1,5 @@
 import random, multiprocessing
-
-def gen_test(file, heaps, operations, lower, upper):
-    '''
+'''
     prima linie: numar de multimi, urmat de operatii
 
     operatii:
@@ -9,7 +7,9 @@ def gen_test(file, heaps, operations, lower, upper):
     2 : afisati cel mai mic numar
     3 : stergeti cel mai mic numar din multime (daca acesta exista)
     4 : reuniti multimile A si B ( multimea A preia elementele mulţimii B, care rămâne vidă )
-    '''
+'''
+
+def gen_test(file, heaps, operations, lower, upper):
     with open(file, "w") as f:
         print(heaps, operations, file=f)
         numbers = set()
@@ -31,7 +31,27 @@ def gen_test(file, heaps, operations, lower, upper):
                     b = random.randint(0, heaps - 1)
                     print(operation, a, b, file=f)
 
+def gen_test_float(file, heaps, operations, lower, upper):
+    with open(file, "w") as f:
+        print(heaps, operations, file=f)
+        numbers = set()
 
+        for _ in range(operations):
+            operation = random.randint(1, 4)
+
+            match operation:
+                case 1:
+                    number = random.uniform(lower, upper)
+                    heap = random.randint(0, heaps - 1)
+                    print(operation, number, heap, file=f)
+                case 2 | 3:
+                    heap = random.randint(0, heaps - 1)
+                    print(operation, heap, file=f)
+
+                case 4:
+                    a = random.randint(0, heaps - 1)
+                    b = random.randint(0, heaps - 1)
+                    print(operation, a, b, file=f)
 def main():
     nr_heaps = 10
     nr_ops = 20_000_000
@@ -47,7 +67,8 @@ def main():
 
     with multiprocessing.Pool(processes=len(jobs)) as pool:
         pool.starmap(gen_test, jobs)
+        #pool.starmap(gen_test_float, jobs)
 
 if __name__ == "__main__":
-    multiprocessing.set_start_method("fork")  # "spawn" on Windows
+    multiprocessing.set_start_method("fork")  # spawn pe windows
     main()
